@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لوحة التحكم</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>لوحة التحكم</h1>
+      <nav id="breadcrumb"></nav>
+    </header>
+
+    <main>
+      <aside id="sidebar"></aside>
+      <section id="content">
+        <div id="items" class="grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="btn-tpl">
+    <button class="action-btn"></button>
+  </template>
+
+  <script src="/static/main.js"></script>
+</body>
+</html>

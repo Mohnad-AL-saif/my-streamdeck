@@ -1,128 +1,135 @@
-let actionLock = false;
-let appConfig = null;
-let currentPageId = 'home';
-const pageStack = [];
+let pages = [];
+let currentPageId = null;
 
-function getPageById(id) {
-  return appConfig.pages.find(p => p.id === id);
+async function fetchPages() {
+  const res = await fetch("/api/pages");
+  const data = await res.json();
+  pages = data.pages || [];
+  return pages;
 }
 
-async function loadConfig() {
-  const res = await fetch('/buttons');
-  appConfig = await res.json();
+function byId(id) {
+  return document.getElementById(id);
 }
 
-function setHeaderTitle(title) {
-  const titleEl = document.getElementById('title');
-  if (titleEl) titleEl.textContent = `🖲️ ${title}`;
+function showToast(msg, ok = true) {
+  const t = document.createElement("div");
+  t.className = "toast " + (ok ? "success" : "error");
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2200);
 }
 
-async function renderPage() {
-  const page = getPageById(currentPageId);
-  const container = document.getElementById('buttonsContainer');
-  const backBtn = document.getElementById('backBtn');
+function renderSidebar() {
+  const sidebar = byId("sidebar");
+  sidebar.innerHTML = "";
+  const home = pages.find((p) => p.id === "home");
+  const links = (home?.items || []).filter((x) => x.type === "page_link");
 
-  container.innerHTML = '';
-  setHeaderTitle(page?.label || 'Stream Deck');
-
-  if (currentPageId === 'home') backBtn.classList.add('hidden');
-  else backBtn.classList.remove('hidden');
-
-  // صفحة VMware ديناميكية
-  if (currentPageId === 'vmware') {
-    // زر تحديث
-    const refresh = document.createElement('button');
-    refresh.className = 'stream-button';
-    refresh.textContent = '🔄 تحديث القائمة';
-    refresh.onclick = () => renderPage();
-    container.appendChild(refresh);
-
-    // احضر القائمة
-    const res = await fetch('/vms');
-    const { vms } = await res.json();
-
-    if (!vms || vms.length === 0) {
-      const empty = document.createElement('div');
-      empty.style.opacity = '0.85';
-      empty.textContent = 'لا توجد آلات .vmx في المسارات المحددة';
-      container.appendChild(empty);
-      return;
-    }
-
-    // لكل VM: اسم + تشغيل + إيقاف
-    vms.forEach(vm => {
-      const row = document.createElement('div');
-      row.style.display = 'grid';
-      row.style.gridTemplateColumns = '1.2fr 0.9fr 0.9fr';
-      row.style.gap = '10px';
-      row.style.alignItems = 'center';
-
-      const nameBtn = document.createElement('button');
-      nameBtn.className = 'stream-button';
-      nameBtn.textContent = vm.name;
-
-      const startBtn = document.createElement('button');
-      startBtn.className = 'stream-button';
-      startBtn.textContent = '▶️ تشغيل';
-      startBtn.onclick = () => runAction({ type: 'vmware', op: 'start', vmx: vm.vmx });
-
-      const stopBtn = document.createElement('button');
-      stopBtn.className = 'stream-button';
-      stopBtn.textContent = '⏹️ إيقاف';
-      stopBtn.onclick = () => runAction({ type: 'vmware', op: 'stop', vmx: vm.vmx });
-
-      row.appendChild(nameBtn);
-      row.appendChild(startBtn);
-      row.appendChild(stopBtn);
-      container.appendChild(row);
-    });
-
-    return; // انتهت صفحة VMware
-  }
-
-  // الصفحات العادية (روابط/أكشن)
-  (page?.items || []).forEach(item => {
-    const btn = document.createElement('button');
-    btn.className = 'stream-button';
-    btn.textContent = item.label;
-
-    if (item.type === 'page_link') {
-      btn.onclick = () => {
-        pageStack.push(currentPageId);
-        currentPageId = item.page_id;
-        renderPage();
-      };
-    } else if (item.type === 'action') {
-      btn.onclick = () => runAction(item.action);
-    }
-
-    container.appendChild(btn);
+  links.forEach((link) => {
+    const a = document.createElement("a");
+    a.href = "#";
+    a.className =
+      "page-link" + (link.page_id === currentPageId ? " active" : "");
+    a.textContent = link.label;
+    a.onclick = (e) => {
+      e.preventDefault();
+      loadPage(link.page_id);
+    };
+    sidebar.appendChild(a);
   });
 }
 
-async function runAction(action) {
-  if (actionLock) return;
-  actionLock = true;
+function renderBreadcrumb(page) {
+  const bc = byId("breadcrumb");
+  bc.textContent = "الصفحة: " + (page?.label || "");
+}
+
+function renderPage(page) {
+  currentPageId = page.id;
+  renderSidebar();
+  renderBreadcrumb(page);
+
+  const itemsDiv = byId("items");
+  itemsDiv.innerHTML = "";
+
+  (page.items || []).forEach((item) => {
+    const btn = document.createElement("button");
+    btn.className = "action-btn";
+    btn.textContent = item.label;
+
+    if (item.type === "page_link") {
+      btn.onclick = () => loadPage(item.page_id);
+    } else if (
+      item.type === "program" ||
+      item.type === "shell" ||
+      item.type === "shortcut"
+    ) {
+      btn.onclick = () => runAction({ page_id: currentPageId, ...item });
+    } else if (item.type === "obs_ws") {
+      btn.onclick = () =>
+        runAction({
+          page_id: currentPageId,
+          type: "obs_ws",
+          op: item.op,
+          scene: item.scene,
+          source: item.source,
+          dir: item.dir,
+        });
+    } else if (item.type === "vmware") {
+      btn.onclick = () =>
+        runAction({
+          page_id: currentPageId,
+          type: "vmware",
+          vmx: item.vmx,
+          op: item.op || "start",
+          guest_user: item.guest_user,
+          guest_pass: item.guest_pass,
+          keys: item.keys, // guest_key
+          shell: item.shell, // guest_shell
+          program: item.program, // guest_run
+          args: item.args,
+          env: item.env,
+          text: item.text, // guest_type
+          enter: item.enter,
+        });
+    }
+
+    itemsDiv.appendChild(btn);
+  });
+}
+
+async function runAction(payload) {
   try {
-    await fetch('/run', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(action)
+    let url = "/run";
+    if (payload.type === "vmware") url = "/vmware/run"; // ← مهم
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
+    const data = await res.json();
+    if (res.ok) {
+      showToast("تم 👍");
+    } else {
+      showToast(data.message || "خطأ", false);
+    }
   } catch (e) {
-    console.error('خطأ أثناء تنفيذ الإجراء:', e);
-  } finally {
-    setTimeout(() => { actionLock = false; }, 500);
+    showToast("فشل الاتصال بالخادم", false);
   }
 }
 
-document.getElementById('backBtn').onclick = () => {
-  if (pageStack.length > 0) currentPageId = pageStack.pop();
-  else currentPageId = 'home';
-  renderPage();
-};
+async function loadPage(id) {
+  const page = pages.find((p) => p.id === id);
+  if (!page) return;
+  renderPage(page);
+}
 
-window.onload = async () => {
-  await loadConfig();
-  renderPage();
-};
+(async function init() {
+  await fetchPages();
+  const home = pages.find((p) => p.id === "home");
+  const firstLink = (home?.items || []).find((x) => x.type === "page_link");
+  const startId = firstLink ? firstLink.page_id : pages[0]?.id;
+  loadPage(startId || "home");
+})();

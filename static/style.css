@@ -1,55 +1,17 @@
-body {
-  background-color: #121212;
-  color: #fff;
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #1f1f1f;
-  border-bottom: 1px solid #333;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 15px;
-  padding: 20px;
-}
-
-.stream-button {
-  padding: 26px 20px;
-  font-size: 18px;
-  background-color: #333;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.stream-button:hover {
-  background-color: #555;
-}
-
-.hidden { display: none; }
-
-#backBtn {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #ff9800;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #0f1220; color: #f5f7ff; }
+header { display:flex; align-items:center; justify-content: space-between; padding: 16px 20px; background: #171a2e; border-bottom: 1px solid #262a4a; position: sticky; top: 0; z-index: 10; }
+h1 { margin: 0; font-size: 20px; }
+main { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 64px); }
+#breadcrumb { opacity: .8; font-size: 14px; }
+#sidebar { border-left: 1px solid #262a4a; background:#14172b; padding: 12px; }
+#sidebar .page-link { width: 100%; text-align: right; display:block; padding:10px 12px; margin:6px 0; background:#1c2041; border:1px solid #2a2f57; border-radius:12px; color:#fff; text-decoration:none; }
+#sidebar .page-link.active { background:#2a3064; border-color:#515be1; }
+#content { padding: 24px; }
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.action-btn { appearance: none; border:none; background:#1d2146; color:#fff; padding:14px 12px; border-radius:14px; border:1px solid #2a2f57; cursor:pointer; text-align:center; min-height:60px; }
+.action-btn:hover { background:#242a5f; border-color:#626ce8; transform: translateY(-1px); }
+.small { font-size: 12px; opacity: .8; display:block; margin-top:6px; }
+.toast { position: fixed; bottom: 16px; left: 16px; background: #14172b; border:1px solid #2a2f57; padding: 10px 12px; border-radius: 12px; }
+.success { border-color: #34d399; }
+.error { border-color: #ef4444; }

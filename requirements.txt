@@ -1,3 +1,4 @@
-flask
-pyautogui
-keyboard
+flask==3.0.3
+obsws-python==1.6.0
+keyboard==0.13.5
+pyautogui==0.9.54

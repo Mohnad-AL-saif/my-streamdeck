@@ -1,157 +1,155 @@
-from flask import Flask, render_template, request, jsonify
-import subprocess
-import pyautogui
-import keyboard
-import json
+# app.py
 import os
+import platform
+import time
 from pathlib import Path
+from routes.vmware_routes import vmware_bp
 
-app = Flask(__name__)
+from flask import Flask, send_from_directory, request, jsonify
 
-CONFIG_FILE = 'config.json'
+# أدوات عامة
+from utils.helpers import load_config, run_program, run_shell
 
-# -----------------------------
-# تحميل/حفظ الإعدادات (UTF-8)
-# -----------------------------
-def load_config():
-    if not os.path.exists(CONFIG_FILE):
-        return {}
-    with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-        return json.load(f)
+# عميل OBS (مطلوب لبعض المسارات)
+try:
+    import obsws_python as obs
+except Exception:
+    obs = None
 
-def save_config(cfg):
-    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-        json.dump(cfg, f, indent=4, ensure_ascii=False)
+# الروترات المنفصلة (لو حاب تستخدمها بالإضافة للمسار الموحد /run)
+from routes.obs_routes import obs_bp
 
-def get_vmware_settings():
+BASE_DIR = Path(__file__).resolve().parent
+
+app = Flask(__name__, static_folder="static", static_url_path="/static")
+
+# تسجيل الـ Blueprints الاختيارية
+app.register_blueprint(vmware_bp)
+app.register_blueprint(obs_bp)
+
+
+# --------- OBS client ---------
+def obs_client():
+    """يرجع عميل OBS WebSocket مبنيًا على config.json"""
+    if obs is None:
+        raise RuntimeError("obsws-python غير مثبت")
     cfg = load_config()
-    return cfg.get('vmware', {})
+    ws = cfg.get("obs_ws", {}) or {}
+    return obs.ReqClient(
+        host=ws.get("host", "127.0.0.1"),
+        port=int(ws.get("port", 4455)),
+        password=ws.get("password", ""),
+        timeout=3.0,
+    )
 
-# --------------------------------------
-# البحث عن جميع ملفات .vmx في المسارات
-# --------------------------------------
-def find_vmx_files():
-    """يمسح search_paths عن ملفات .vmx ويرجع [{name, vmx}]"""
-    settings = get_vmware_settings()
-    paths = settings.get('search_paths', [])
-    results = []
-    seen = set()
 
-    for base in paths:
-        p = Path(base)
-        if not p.exists():
-            continue
-        for vmx in p.rglob('*.vmx'):
-            try:
-                name = vmx.parent.name  # اسم المجلد كافتراض
-                # نحاول استخراج displayName من ملف .vmx إن وجد
-                try:
-                    with vmx.open('r', encoding='utf-8', errors='ignore') as f:
-                        for line in f:
-                            if line.strip().startswith('displayName'):
-                                # displayName = "..."
-                                name = line.split('=', 1)[1].strip().strip('"')
-                                break
-                except Exception:
-                    pass
-                s = str(vmx)
-                if s not in seen:
-                    results.append({'name': name, 'vmx': s})
-                    seen.add(s)
-            except Exception:
-                pass
-    return results
-
-def get_vmrun_path():
-    settings = get_vmware_settings()
-    if os.name == 'nt':
-        return settings.get('vmrun_path_win') or 'vmrun.exe'
-    else:
-        return settings.get('vmrun_path_linux') or 'vmrun'
-
-# -----------
-# المسارات
-# -----------
-@app.route('/')
+# --------- صفحات الواجهة ---------
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return send_from_directory(BASE_DIR, "index.html")
 
-@app.route('/buttons')
-def get_buttons():
-    # ترجع كامل config (فيه pages + إعدادات vmware)
-    return jsonify(load_config())
 
-@app.route('/vms')
-def list_vms():
-    return jsonify({'vms': find_vmx_files()})
+@app.route("/api/pages")
+def api_pages():
+    cfg = load_config()
+    return jsonify({"pages": cfg.get("pages", [])})
 
-@app.route('/run', methods=['POST'])
+
+# --------- منفذ موحّد لتنفيذ الأزرار من الواجهة ---------
+@app.route("/run", methods=["POST"])
 def run_action():
-    data = request.json or {}
-    action_type = data.get('type')
-    value       = data.get('value')        # launch_app / open_file / send_text / hotkey
-    value_win   = data.get('value_win')    # shell (Windows)
-    value_linux = data.get('value_linux')  # shell (Linux)
+    data = request.get_json(force=True)
+    t = data.get("type")
+
     try:
-        if action_type == 'launch_app':
-            # مثال: "C:\\Program Files\\obs-studio\\bin\\64bit\\obs64.exe"
-            if os.name == 'nt':
-                os.startfile(value)  # يتعامل تلقائياً مع المسارات/المسافات
+        # 1) تشغيل برنامج/اختصار عادي
+        if t == "program":
+            ok, msg = run_program(data.get("path", ""), data.get("args", ""))
+            return jsonify({"status": "success" if ok else "error", "message": msg}), (
+                200 if ok else 400
+            )
+
+        # 2) أمر شِل مباشرة
+        elif t == "shell":
+            ok, msg = run_shell(data.get("command", ""))
+            return jsonify({"status": "success" if ok else "error", "message": msg}), (
+                200 if ok else 400
+            )
+
+        # (للتوافق فقط) — لا ننفذ شيء هنا
+        elif t == "shortcut":
+            return jsonify({"status": "success", "message": "ignored"}), 200
+
+        # 3) أوامر OBS عبر WebSocket (لا تعتمد على الفوكس)
+        elif t == "obs_ws":
+            if obs is None:
+                return jsonify({"status": "error", "message": "obsws-python غير مثبت"}), 500
+
+            client = obs_client()
+            op = (data.get("op") or "").strip()
+
+            if op == "start_stream":
+                client.start_stream()
+            elif op == "stop_stream":
+                client.stop_stream()
+            elif op == "start_record":
+                client.start_record()
+            elif op == "stop_record":
+                client.stop_record()
+            elif op == "set_scene":
+                scene = data.get("scene")
+                if not scene:
+                    return jsonify({"status": "error", "message": "scene مفقودة"}), 400
+                client.set_current_program_scene(scene)
+            elif op == "toggle_mute":
+                source = data.get("source")
+                if not source:
+                    return jsonify({"status": "error", "message": "source مفقودة"}), 400
+                res = client.get_input_mute(source)   # v1.6 → يرجع dataclass فيه input_muted
+                client.set_input_mute(source, not res.input_muted)
+            elif op == "screenshot":
+                directory = data.get("dir") or str(BASE_DIR)
+                source = data.get("source")
+                if not source:
+                    return jsonify(
+                        {"status": "error", "message": "source مفقودة للّقطة"}
+                    ), 400
+                filename = f"snap_{int(time.time())}.png"
+                client.save_source_screenshot(source, "png", str(Path(directory) / filename), 0, 0)
             else:
-                subprocess.Popen(value, shell=True)
+                return jsonify({"status": "error", "message": f"Unknown op: {op}"}), 400
 
-        elif action_type == 'open_file':
-            if os.name == 'nt':
-                os.startfile(value)
-            else:
-                subprocess.Popen(['xdg-open', value], shell=False)
+            return jsonify({"status": "success"})
 
-        elif action_type == 'send_text':
-            pyautogui.write(value)
+        # 4) أوامر VMware عبر vmrun
+        elif t == "vmware":
+            cfg_vm = load_config().get("vmware", {})
+            vmrun = (
+                cfg_vm.get("vmrun_path_win")
+                if platform.system() == "Windows"
+                else cfg_vm.get("vmrun_path_linux")
+            )
+            if not vmrun or not os.path.exists(vmrun):
+                return jsonify({"status": "error", "message": "vmrun.exe غير موجود"}), 500
 
-        elif action_type == 'hotkey':
-            keyboard.send(value)
+            vmx = data.get("vmx")
+            op = data.get("op", "start")
+            if not vmx or not os.path.exists(vmx):
+                return jsonify({"status": "error", "message": "ملف VMX غير موجود"}), 400
 
-        elif action_type == 'shell':
-            # أوامر نظام عامة
-            if os.name == 'nt':
-                cmd = value_win or value
-                if not cmd:
-                    return jsonify({'status': 'error', 'message': 'No command for Windows'}), 400
-                subprocess.Popen(['cmd', '/c', cmd], shell=True)
-            else:
-                cmd = value_linux or value
-                if not cmd:
-                    return jsonify({'status': 'error', 'message': 'No command for Linux'}), 400
-                subprocess.Popen(['bash', '-lc', cmd], shell=False)
-
-        elif action_type == 'vmware':
-            # data: {'op': 'start'|'stop', 'vmx': 'C:\\path\\vm.vmx'}
-            op  = data.get('op')
-            vmx = data.get('vmx')
-            if not op or not vmx:
-                return jsonify({'status': 'error', 'message': 'Missing op/vmx'}), 400
-
-            vmrun = get_vmrun_path()
-            if op == 'start':
-                # gui (واجهه) أو nogui (بدون واجهة)
-                cmd = [vmrun, 'start', vmx, 'gui']
-            elif op == 'stop':
-                # soft (لطيف) — غيّر لـ 'hard' لو تبغى إيقاف إجباري
-                cmd = [vmrun, 'stop', vmx, 'soft']
-            else:
-                return jsonify({'status': 'error', 'message': f'Unknown op: {op}'}), 400
-
-            subprocess.Popen(cmd, shell=(os.name == 'nt'))
+            cmd = f"\"{vmrun}\" {op} \"{vmx}\" nogui"
+            ok, msg = run_shell(cmd)
+            return jsonify({"status": "success" if ok else "error", "message": msg}), (
+                200 if ok else 500
+            )
 
         else:
-            return jsonify({'status': 'error', 'message': f'Unknown action type: {action_type}'}), 400
+            return jsonify({"status": "error", "message": f"نوع غير مدعوم: {t}"}), 400
 
     except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
 
-    return jsonify({'status': 'success'})
 
-if __name__ == '__main__':
-    # شغّل على الشبكة المحلية للي يبي يفتح من شاشة لمس خارجية
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    # شغّل السيرفر
+    app.run(host="0.0.0.0", port=5000, debug=True)

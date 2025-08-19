@@ -4,50 +4,1143 @@
       "id": "home",
       "label": "الرئيسية",
       "items": [
-        { "type": "page_link", "label": "🎥 OBS", "page_id": "obs" },
-        { "type": "page_link", "label": "💻 VMware", "page_id": "vmware" }
+        {
+          "type": "page_link",
+          "label": "🎥 OBS",
+          "page_id": "obs"
+        },
+        {
+          "type": "page_link",
+          "label": "💻 VMware",
+          "page_id": "vmware"
+        },
+        {
+          "type": "page_link",
+          "label": "🐉 Kali",
+          "page_id": "kali"
+        },
+        {
+          "type": "page_link",
+          "label": "⌨️ keyboard",
+          "page_id": "keyboard"
+        },
+        {
+          "type": "page_link",
+          "label": "👁️ nmap",
+          "page_id": "nmap"
+        }
       ]
     },
     {
       "id": "obs",
       "label": "OBS",
+      "focus": {
+        "window_title": "OBS",
+        "keywords": [
+          "OBS",
+          "OBS Studio"
+        ]
+      },
       "items": [
         {
-          "type": "action",
+          "type": "program",
           "label": "تشغيل OBS",
-          "action": { "type": "launch_app", "value": "C:\\\\Users\\\\Public\\\\Desktop\\\\OBS Studio.lnk" }
+          "path": "C:\\\\Users\\\\Public\\\\Desktop\\\\OBS Studio.lnk",
+          "args": ""
         },
-        { "type": "action", "label": "بدء البث",    "action": { "type": "hotkey", "value": "ctrl+shift+1" } },
-        { "type": "action", "label": "إيقاف البث",  "action": { "type": "hotkey", "value": "ctrl+shift+2" } },
-        { "type": "action", "label": "بدء التسجيل", "action": { "type": "hotkey", "value": "ctrl+shift+3" } },
-        { "type": "action", "label": "إيقاف التسجيل","action": { "type": "hotkey", "value": "ctrl+shift+4" } },
         {
-          "type": "action",
+          "type": "obs_ws",
+          "label": "بدء البث",
+          "op": "start_stream"
+        },
+        {
+          "type": "obs_ws",
+          "label": "إيقاف البث",
+          "op": "stop_stream"
+        },
+        {
+          "type": "obs_ws",
+          "label": "بدء التسجيل",
+          "op": "start_record"
+        },
+        {
+          "type": "obs_ws",
+          "label": "إيقاف التسجيل",
+          "op": "stop_record"
+        },
+        {
+          "type": "obs_ws",
+          "label": "right",
+          "op": "set_scene",
+          "scene": "right"
+        },
+        {
+          "type": "obs_ws",
+          "label": "left",
+          "op": "set_scene",
+          "scene": "left"
+        },
+        {
+          "type": "obs_ws",
+          "label": "center",
+          "op": "set_scene",
+          "scene": "center"
+        },
+        {
+          "type": "obs_ws",
+          "label": "Scene 2",
+          "op": "set_scene",
+          "scene": "Scene 2"
+        },
+        {
+          "type": "obs_ws",
+          "label": "كتم الميكروفون",
+          "op": "toggle_mute",
+          "source": "Mic/Aux"
+        },
+        {
+          "type": "obs_ws",
+          "label": "كتم الصوت",
+          "op": "toggle_mute",
+          "source": "Desktop Audio"
+        },
+        {
+          "type": "obs_ws",
+          "label": "لقطة شاشة",
+          "op": "screenshot",
+          "dir": "C:\\\\Users\\\\Public\\\\Pictures"
+        },
+        {
+          "type": "shell",
           "label": "إغلاق OBS",
-          "action": { "type": "shell", "value_win": "taskkill /IM obs64.exe /F", "value_linux": "pkill -f obs" }
+          "command": "taskkill /IM obs64.exe /F"
         },
         {
-          "type": "action",
+          "type": "shell",
           "label": "🔄 إعادة تشغيل OBS",
-          "action": {
-            "type": "shell",
-            "value_win": "taskkill /IM obs64.exe /F && start \"\" \"C:\\\\Program Files\\\\obs-studio\\\\bin\\\\64bit\\\\obs64.exe\"",
-            "value_linux": "pkill -f obs && obs &"
-          }
+          "command": "taskkill /IM obs64.exe /F && start \"\" \"C:\\\\Program Files\\\\obs-studio\\\\bin\\\\64bit\\\\obs64.exe\""
         }
       ]
     },
     {
       "id": "vmware",
       "label": "VMware",
-      "items": []
+      "focus": {
+        "window_title": "VMware",
+        "keywords": [
+          "VMware Workstation",
+          "VMware"
+        ]
+      },
+      "items": [
+        {
+          "type": "program",
+          "label": "VMware Workstation Pro",
+          "path": "C:\\Users\\Public\\Desktop\\VMware Workstation Pro.lnk",
+          "args": ""
+        },
+        {
+          "type": "vmware",
+          "label": "▶️ Start Windows XP",
+          "op": "start",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏯ Resume Windows XP",
+          "op": "start",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⛔ Power Off (Hard) XP",
+          "op": "stop",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "🛑 Shutdown (Soft) XP",
+          "op": "stop soft",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏸ Suspend XP",
+          "op": "suspend",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "🔄 Reset XP",
+          "op": "reset",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏯ Pause XP",
+          "op": "pause",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "▶️ Unpause XP",
+          "op": "unpause",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\Windows XP Professional\\Windows XP Professional.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "▶️ Start Kali",
+          "op": "start",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏯ Resume Kali",
+          "op": "start",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⛔ Power Off (Hard) Kali",
+          "op": "stop",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "🛑 Shutdown (Soft) Kali",
+          "op": "stop soft",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏸ Suspend Kali",
+          "op": "suspend",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "🔄 Reset Kali",
+          "op": "reset",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏯ Pause Kali",
+          "op": "pause",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "▶️ Unpause Kali",
+          "op": "unpause",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "▶️ Start FristiLeaks",
+          "op": "start",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏯ Resume FristiLeaks",
+          "op": "start",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⛔ Power Off (Hard) Fristi",
+          "op": "stop",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "🛑 Shutdown (Soft) Fristi",
+          "op": "stop soft",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏸ Suspend FristiLeaks",
+          "op": "suspend",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "🔄 Reset FristiLeaks",
+          "op": "reset",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "⏯ Pause FristiLeaks",
+          "op": "pause",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        },
+        {
+          "type": "vmware",
+          "label": "▶️ Unpause FristiLeaks",
+          "op": "unpause",
+          "vmx": "C:\\Users\\AlSaif\\Documents\\Virtual Machines\\FristiLeaks_1.3\\FristiLeaks_1.3.vmx"
+        }
+      ]
+    },
+    {
+      "id": "kali",
+      "label": "Kali",
+      "focus": {
+        "window_title": "Kali",
+        "keywords": [
+          "Kali",
+          "VMware"
+        ]
+      },
+      "items": [
+        {
+          "type": "vmware",
+          "label": "🔍 vmrun -v",
+          "op": "vmrun_version"
+        },
+        {
+          "type": "vmware",
+          "label": "Enter (👍)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "enter"
+        },
+        {
+          "type": "vmware",
+          "label": "Up (⬆️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "up"
+        },
+        {
+          "type": "vmware",
+          "label": "Down (⬇️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "down"
+        },
+        {
+          "type": "vmware",
+          "label": "Left (⬅️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "left"
+        },
+        {
+          "type": "vmware",
+          "label": "Right (➡️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "right"
+        },
+        {
+          "type": "vmware",
+          "label": "⌨️ Ctrl+Shift+C (inside guest)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+shift+c"
+        },
+        {
+          "type": "vmware",
+          "label": "⌨️ Ctrl+Shift+v (inside guest)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+shift+v"
+        },
+        {
+          "type": "vmware",
+          "label": "⌨️ Ctrl+alt+T (open terminal)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+alt+t"
+        },
+        {
+          "type": "vmware",
+          "label": "⌨️ Ctrl+Shift+T (new terminal tab)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+shift+t"
+        },
+        {
+          "type": "vmware",
+          "label": "🖥️ Open Terminal (auto)",
+          "op": "guest_run",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "program": "/usr/bin/xfce4-terminal",
+          "args": [],
+          "env": {
+            "DISPLAY": ":0"
+          }
+        },
+        {
+          "type": "vmware",
+          "label": "⛔ Alt+F4 — Close Window",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F4"
+        },
+        {
+          "type": "vmware",
+          "label": "⛔ ctrl+shift+w — Close tab",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+shift+w"
+        },
+        {
+          "type": "vmware",
+          "label": "🗖 Alt+F11 — Maximize",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F11"
+        },
+        {
+          "type": "vmware",
+          "label": "📸 Print — Screenshot",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "Print"
+        },
+        {
+          "type": "vmware",
+          "label": "📸 Super+Print — Kazam",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "Super+Print"
+        },
+        {
+          "type": "vmware",
+          "label": "🔍 Alt+F3 — App Finder",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F3"
+        },
+        {
+          "type": "vmware",
+          "label": "🆕 Ctrl+N — New",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+n"
+        },
+        {
+          "type": "vmware",
+          "label": "✂️ Ctrl+X — Cut",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+x"
+        },
+        {
+          "type": "vmware",
+          "label": "📋 Ctrl+C — Copy",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+c"
+        },
+        {
+          "type": "vmware",
+          "label": "↩️ Ctrl+Z — Undo",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+z"
+        },
+        {
+          "type": "vmware",
+          "label": "💾 Ctrl+S — Save",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+s"
+        },
+        {
+          "type": "vmware",
+          "label": "🚪 Ctrl+Q — Quit",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+q"
+        },
+        {
+          "type": "vmware",
+          "label": "❓ F1 — Help",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "F1"
+        },
+        {
+          "type": "vmware",
+          "label": "☰ F10 — Menu",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "F10"
+        },
+        {
+          "type": "vmware",
+          "label": "🏠 Alt+F1 — Open Window Menu",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F1"
+        },
+        {
+          "type": "vmware",
+          "label": "💬 Alt+F2 — Run Command",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F2"
+        },
+        {
+          "type": "vmware",
+          "label": "↔️ Alt+F7 — Move Window",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F7"
+        },
+        {
+          "type": "vmware",
+          "label": "🪟 Alt+Space — Window Menu",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+space"
+        },
+        {
+          "type": "vmware",
+          "label": "🗖 Alt+F10 — Toggle Maximize",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F10"
+        },
+        {
+          "type": "vmware",
+          "label": "🧹 Ctrl+Alt+D — Minimize All",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+alt+d"
+        },
+        {
+          "type": "vmware",
+          "label": "📐 Alt+F8 — Resize Window",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+F8"
+        },
+        {
+          "type": "vmware",
+          "label": "🪟 Ctrl+D — Close Terminal",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+d"
+        },
+        {
+          "type": "vmware",
+          "label": "🔍 Ctrl++ — Zoom In",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+plus"
+        },
+        {
+          "type": "vmware",
+          "label": "🔎 Ctrl+- — Zoom Out",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+minus"
+        },
+        {
+          "type": "vmware",
+          "label": "🧼 Ctrl+L — Clear Terminal",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+l"
+        },
+        {
+          "type": "vmware",
+          "label": "⛔ Ctrl+C — Cancel Command",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+c"
+        },
+        {
+          "type": "vmware",
+          "label": "↖️ Ctrl+A — Line Start",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+a"
+        },
+        {
+          "type": "vmware",
+          "label": "◀️ Ctrl+B — Back Char",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+b"
+        },
+        {
+          "type": "vmware",
+          "label": "↘️ Ctrl+E — Line End",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+e"
+        },
+        {
+          "type": "vmware",
+          "label": "▶️ Ctrl+F — Forward Char",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+f"
+        },
+        {
+          "type": "vmware",
+          "label": "📸 Print — Screenshot",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "Print"
+        },
+        {
+          "type": "vmware",
+          "label": "📋 Ctrl+Print — Screenshot to Clipboard",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+Print"
+        },
+        {
+          "type": "vmware",
+          "label": "🪟 Alt+Print — Window Screenshot",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "alt+Print"
+        },
+        {
+          "type": "vmware",
+          "label": "📐 Ctrl+Shift+Print — Area to Clipboard",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+shift+Print"
+        },
+        {
+          "type": "vmware",
+          "label": "🪟 Ctrl+Alt+Print — Window to Clipboard",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "ctrl+alt+Print"
+        },
+        {
+          "type": "vmware",
+          "label": "⏺ Shift+Ctrl+Alt+R — Screencast",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "shift+ctrl+alt+r"
+        },
+        {
+          "type": "vmware",
+          "label": "⬅️ Move Window to Left Workspace",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "shift+ctrl+alt+Left"
+        },
+        {
+          "type": "vmware",
+          "label": "➡️ Move Window to Right Workspace",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "shift+ctrl+alt+Right"
+        },
+        {
+          "type": "vmware",
+          "label": "⬆️ Move Window to Upper Workspace",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "shift+ctrl+alt+Up"
+        },
+        {
+          "type": "vmware",
+          "label": "⬇️ Move Window to Lower Workspace",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "shift+ctrl+alt+Down"
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "label": "keyboard",
+      "focus": {
+        "window_title": "keyboard",
+        "keywords": [
+          "keyboard",
+          "VMware"
+        ]
+      },
+      "items": [
+        {
+          "type": "vmware",
+          "label": "enter",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "enter"
+        },
+        {
+          "type": "vmware",
+          "label": "Up (⬆️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "up"
+        },
+        {
+          "type": "vmware",
+          "label": "Down (⬇️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "down"
+        },
+        {
+          "type": "vmware",
+          "label": "Left (⬅️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "left"
+        },
+        {
+          "type": "vmware",
+          "label": "Right (➡️)",
+          "op": "guest_key",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "keys": "right"
+        }
+      ]
+    },
+    {
+      "id": "nmap",
+      "label": "nmap",
+      "focus": {
+        "window_title": "nmap",
+        "keywords": [
+          "nmap",
+          "VMware"
+        ]
+      },
+      "items": [
+        {
+          "type": "vmware",
+          "label": "Scan all ports (-p-)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -p- <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Default scripts & versions (-sC -sV)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -sC -sV <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Aggressive scan (-A)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -A <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Skip discovery (-Pn)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -Pn <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Top 100 ports (-F)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -F <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Scan top 200 ports",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --top-ports 200 <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "OS detection (-O)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -O <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "UDP scan (-sU)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -sU <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "SYN scan (-sS)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -sS <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "TCP connect scan (-sT)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -sT <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "No DNS resolution (-n)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -n <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Verbose mode (-v)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -v <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Reason output (--reason)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --reason <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Packet trace (--packet-trace)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --packet-trace <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Save normal output (-oN)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -oN output.txt <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Save all formats (-oA)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -oA results <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Timing aggressive (-T4)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -T4 <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "IPv6 scan (-6)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -6 <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "Host discovery only (-sn)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -sn <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "CIDR range scan (192.168.1.0/24)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap 192.168.1.0/24",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] Vuln scripts (--script=vuln)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --script=vuln <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] HTTP vuln scripts (--script=http*)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -p80,443 -sV --script=http* <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] DNS brute (--script=dns-brute)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --script=dns-brute <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] SQLi check (--script=http-sql-injection)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -p80 --script=http-sql-injection <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] SMB vuln (--script=smb-vuln*)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --script=smb-vuln* <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] Safe category (--script=safe)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --script=safe <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] FTP brute (--script=ftp-brute)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --script=ftp-brute <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] SSH brute (--script=ssh-brute)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap --script=ssh-brute <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] Firewall evasion (-f -D)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -f -D RND:10 <target>",
+          "enter": false
+        },
+        {
+          "type": "vmware",
+          "label": "[PT] Aggressive vuln scan (-sC -sV --script=vuln)",
+          "op": "guest_type",
+          "vmx": "D:\\\\kali-linux-2024.4-vmware-amd64\\\\kali-linux-2024.4-vmware-amd64.vmwarevm\\\\kali-linux-2024.4-vmware-amd64.vmx",
+          "guest_user": "kali",
+          "guest_pass": "kali",
+          "text": "nmap -sC -sV --script=vuln <target>",
+          "enter": false
+        }
+      ]
+    },
+    {
+      "obs_ws": {
+        "host": "127.0.0.1",
+        "port": 4455,
+        "password": "changeme"
+      },
+      "vmware": {
+        "search_paths": [
+          "C:\\\\Users\\\\AlSaif\\\\Documents\\\\Virtual Machines"
+        ],
+        "vmrun_path_win": "C:\\\\Program Files (x86)\\\\VMware\\\\VMware Workstation\\\\vmrun.exe",
+        "vmrun_path_linux": "vmrun"
+      }
     }
-  ],
-  "vmware": {
-    "search_paths": [
-      "C:\\\\Users\\\\AlSaif\\\\Documents\\\\Virtual Machines"
-    ],
-    "vmrun_path_win": "C:\\\\Program Files (x86)\\\\VMware\\\\VMware Workstation\\\\vmrun.exe",
-    "vmrun_path_linux": "vmrun"
-  }
+  ]
 }
