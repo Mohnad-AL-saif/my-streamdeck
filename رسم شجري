@@ -1,0 +1,7 @@
+my-streamdeck/
+│
+├── app.py              ← الخادم Flask
+├── templates/
+│   └── index.html      ← الواجهة
+└── actions/
+    └── launch_obs.bat  ← أوامر مخصصة

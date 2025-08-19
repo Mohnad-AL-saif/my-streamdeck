@@ -1,0 +1,53 @@
+{
+  "pages": [
+    {
+      "id": "home",
+      "label": "الرئيسية",
+      "items": [
+        { "type": "page_link", "label": "🎥 OBS", "page_id": "obs" },
+        { "type": "page_link", "label": "💻 VMware", "page_id": "vmware" }
+      ]
+    },
+    {
+      "id": "obs",
+      "label": "OBS",
+      "items": [
+        {
+          "type": "action",
+          "label": "تشغيل OBS",
+          "action": { "type": "launch_app", "value": "C:\\\\Users\\\\Public\\\\Desktop\\\\OBS Studio.lnk" }
+        },
+        { "type": "action", "label": "بدء البث",    "action": { "type": "hotkey", "value": "ctrl+shift+1" } },
+        { "type": "action", "label": "إيقاف البث",  "action": { "type": "hotkey", "value": "ctrl+shift+2" } },
+        { "type": "action", "label": "بدء التسجيل", "action": { "type": "hotkey", "value": "ctrl+shift+3" } },
+        { "type": "action", "label": "إيقاف التسجيل","action": { "type": "hotkey", "value": "ctrl+shift+4" } },
+        {
+          "type": "action",
+          "label": "إغلاق OBS",
+          "action": { "type": "shell", "value_win": "taskkill /IM obs64.exe /F", "value_linux": "pkill -f obs" }
+        },
+        {
+          "type": "action",
+          "label": "🔄 إعادة تشغيل OBS",
+          "action": {
+            "type": "shell",
+            "value_win": "taskkill /IM obs64.exe /F && start \"\" \"C:\\\\Program Files\\\\obs-studio\\\\bin\\\\64bit\\\\obs64.exe\"",
+            "value_linux": "pkill -f obs && obs &"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vmware",
+      "label": "VMware",
+      "items": []
+    }
+  ],
+  "vmware": {
+    "search_paths": [
+      "C:\\\\Users\\\\AlSaif\\\\Documents\\\\Virtual Machines"
+    ],
+    "vmrun_path_win": "C:\\\\Program Files (x86)\\\\VMware\\\\VMware Workstation\\\\vmrun.exe",
+    "vmrun_path_linux": "vmrun"
+  }
+}

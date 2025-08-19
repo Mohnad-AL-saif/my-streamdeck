@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Stream Deck</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="header">
+    <h1 id="title">🖲️ Stream Deck</h1>
+    <div>
+      <button id="backBtn" class="hidden">⬅️ رجوع</button>
+    </div>
+  </div>
+
+  <div id="buttonsContainer" class="grid"></div>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
